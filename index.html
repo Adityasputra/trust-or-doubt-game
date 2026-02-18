@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trust or Doubt Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- MENU -->
+    <section id="scene-menu" class="scene active">
+      <button id="playBtn">PLAY</button>
+    </section>
+
+    <!-- CASE BOOK -->
+    <section id="scene-book" class="scene">
+      <h2 id="case-title"></h2>
+
+      <div>
+        <h3>Kronologi</h3>
+        <ul id="chronology"></ul>
+      </div>
+
+      <div>
+        <h3>Tersangka</h3>
+        <p id="suspect-name"></p>
+      </div>
+
+      <button id="startInterrogation">Mulai Investigasi</button>
+    </section>
+
+    <!-- INTERROGATION -->
+    <section id="scene-interrogation" class="scene">
+      <p id="dialogText"></p>
+      <div id="actions" class="actions"></div>
+    </section>
+
+    <!-- ENDING -->
+    <section id="scene-ending" class="scene">
+      <h2 id="ending-title"></h2>
+      <p id="ending-text"></p>
+      <button id="restartBtn">Main Lagi</button>
+    </section>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

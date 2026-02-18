@@ -1,0 +1,106 @@
+{
+  "start": {
+    "text": "Arman duduk dengan gelisah di kursi interogasi. Tangannya gemetar saat memegang gelas air.",
+    "speaker": "narrator",
+    "next": {
+      "trust": "trust_1",
+      "doubt": "doubt_1",
+      "question": "question_1"
+    }
+  },
+  "trust_1": {
+    "text": "Saya percaya kamu tidak melakukannya, Arman. Tapi saya butuh bantuanmu untuk menemukan pelakunya.",
+    "speaker": "player",
+    "response": {
+      "text": "Terima kasih... Saya memang tidak tahu apa-apa. Malam itu saya sedang tutup toko seperti biasa.",
+      "speaker": "arman"
+    },
+    "next": {
+      "question": "question_2",
+      "doubt": "doubt_2"
+    }
+  },
+  "doubt_1": {
+    "text": "Kamu terlihat sangat gugup, Arman. Ada yang ingin kamu sembunyikan?",
+    "speaker": "player",
+    "response": {
+      "text": "Ti-tidak! Saya hanya... tidak terbiasa dengan situasi seperti ini. Saya hanya penjaga toko biasa!",
+      "speaker": "arman"
+    },
+    "next": {
+      "trust": "trust_2",
+      "question": "question_1"
+    }
+  },
+  "question_1": {
+    "text": "Jam berapa kamu menutup toko malam itu?",
+    "speaker": "player",
+    "response": {
+      "text": "Sekitar jam 9 malam. Sama seperti biasa. Saya langsung pulang setelah itu.",
+      "speaker": "arman"
+    },
+    "next": {
+      "doubt": "doubt_clock",
+      "trust": "trust_2"
+    }
+  },
+  "doubt_clock": {
+    "text": "Tunggu. Jam dinding berhenti pukul 21.45, dan korban ditemukan pukul 22.00. Kamu bilang pulang jam 9?",
+    "speaker": "player",
+    "response": {
+      "text": "...Saya... saya tidak melihat jam saat pulang. Mungkin sedikit lebih malam dari yang saya kira.",
+      "speaker": "arman"
+    },
+    "next": {
+      "trust": "ending_innocent",
+      "doubt": "ending_guilty"
+    }
+  },
+  "trust_2": {
+    "text": "Baiklah, saya mengerti. Terima kasih atas kerjasamanya.",
+    "speaker": "player",
+    "response": {
+      "text": "Sama-sama. Saya harap pelakunya segera tertangkap.",
+      "speaker": "arman"
+    },
+    "next": {
+      "question": "question_1"
+    }
+  },
+  "question_2": {
+    "text": "Apakah kamu melihat sesuatu yang mencurigakan malam itu?",
+    "speaker": "player",
+    "response": {
+      "text": "Sebenarnya... saya melihat seseorang berlari di gang sempit dekat toko. Tapi terlalu gelap untuk melihat wajahnya.",
+      "speaker": "arman"
+    },
+    "next": {
+      "doubt": "doubt_clock",
+      "trust": "ending_innocent"
+    }
+  },
+  "doubt_2": {
+    "text": "Kamu yakin tidak ada yang kamu sembunyikan?",
+    "speaker": "player",
+    "response": {
+      "text": "Saya bersumpah! Saya tidak tahu apa-apa tentang kematian itu!",
+      "speaker": "arman"
+    },
+    "next": {
+      "trust": "ending_innocent",
+      "question": "question_1"
+    }
+  },
+  "ending_innocent": {
+    "text": "Setelah investigasi lebih lanjut, Arman terbukti tidak bersalah. Pelaku sebenarnya adalah tetangga korban yang memiliki dendam lama.",
+    "speaker": "narrator",
+    "ending": true,
+    "result": "innocent"
+  },
+  "ending_guilty": {
+    "text": "Dengan bukti yang ada, Arman akhirnya mengakui perbuatannya. Jam dinding berhenti karena terjatuh saat pergulatan.",
+    "speaker": "narrator",
+    "ending": true,
+    "result": "guilty"
+  }
+}
