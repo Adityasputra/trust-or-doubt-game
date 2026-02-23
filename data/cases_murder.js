@@ -1,3 +1,5 @@
+import { gameState } from "../src/core/state.js";
+
 export const caseMurder = {
   case_murder_1: {
     meta: {
@@ -92,7 +94,24 @@ export const caseMurder = {
     dialog_action_doubt: {
       type: "dialog",
       speaker: "Pak Budi",
-      text: "Kalau tidak percaya, silakan masuk sendiri ke rumah itu. Tapi saya tidak mau ikut.",
+      text: () => {
+        if (gameState.emotion === "happy") {
+          return "Kenapa Bapak meragukan saya? Saya sudah bekerja di sini 20 tahun! Tanya saja tetangga lain.";
+        }
+        if (gameState.emotion === "angry") {
+          return "Apa Bapak tidak percaya saya? Saya sudah bekerja di sini 20 tahun! Tanya saja tetangga lain.";
+        }
+        if (gameState.emotion === "afraid") {
+          return "Kenapa Bapak meragukan saya? Saya sudah bekerja di sini 20 tahun! Tanya saja tetangga lain.";
+        }
+        if (gameState.emotion === "nervous") {
+          return "Kenapa Bapak meragukan saya? Saya sudah bekerja di sini 20 tahun! Tanya saja tetangga lain.";
+        }
+        if (gameState.emotion === "anxious") {
+          return "Kenapa Bapak meragukan saya? Saya sudah bekerja di sini 20 tahun! Tanya saja tetangga lain.";
+        }
+        return "Kenapa Bapak meragukan saya? Saya sudah bekerja di sini 20 tahun! Tanya saja tetangga lain.";
+      },
       next: "story_investigate",
     },
 
@@ -189,6 +208,15 @@ export const caseMurder = {
 
     ending: {
       type: "ending",
+      text: () => {
+        if (gameState.truth >= 25 && gameState.trust >= 50) {
+          return "Kamu menemukan portal dimensi rahasia di basement rumah 1A. Bu Sari ternyata adalah ilmuwan yang kabur karena eksperimennya lepas kendali. Kasus terpecahkan!";
+        } else if (gameState.truth >= 25 && gameState.trust < 40) {
+          return "Portal meledak dan menelanmu ke dimensi lain. GAME OVER.";
+        } else {
+          return "Kamu memutuskan untuk evakuasi dan laporkan ke pusat. Tapi saat polisi datang, rumah itu sudah hancur terbakar. Kasus tetap misterius.";
+        }
+      },
     },
   },
 

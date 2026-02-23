@@ -1,10 +1,18 @@
+import { evaluateEmotion } from "../systems/emotion.js";
 import { BALANCE } from "./balance.js";
 import { gameState } from "./state.js";
 
 const dialogEl = document.getElementById("dialogText");
 const optionsEl = document.getElementById("options");
 const actionsEl = document.getElementById("actions");
+const emotionEl = document.getElementById("emotion");
 
+function updateEmotionDisplay() {
+  emotionEl.textContent = `Trust: ${gameState.trust} | Truth: ${gameState.truth} | Pressure: ${gameState.pressure} | Emosi: ${gameState.emotion}`;
+}
+function clampValue(value, min = 0, max = 100) {
+  return Math.max(min, Math.min(max, value));
+}
 function clearUI() {
   optionsEl.innerHTML = "";
   actionsEl.innerHTML = "";
@@ -12,7 +20,9 @@ function clearUI() {
 
 export function goToNode(id, dialogData) {
   clearUI();
+  console.log("goToNode dipanggil:", { id, dialogData });
   const node = dialogData.data[id];
+  console.log("Node found:", node);
   gameState.node = id;
   // console.log("Navigating to node:", id);
   // console.log("Dialog data:", dialogData);
@@ -23,7 +33,17 @@ export function goToNode(id, dialogData) {
   // console.log(node);
 
   if (node.type === "story" || node.type === "dialog") {
-    dialogEl.textContent = node.text;
+    const displayText =
+      typeof node.text === "function" ? node.text() : node.text;
+    
+    // Tampilkan speaker jika ada
+    if (node.speaker) {
+      dialogEl.innerHTML = `<strong style="color: #4a9eff;">${node.speaker}:</strong><br>${displayText}`;
+    } else {
+      dialogEl.textContent = displayText;
+    }
+    
+    updateEmotionDisplay();
 
     const nextButton = document.createElement("button");
     nextButton.textContent = "Lanjut";
@@ -33,20 +53,24 @@ export function goToNode(id, dialogData) {
   }
 
   if (node.type === "option") {
-    dialogEl.textContent = node.text;
+    const displayText =
+      typeof node.text === "function" ? node.text() : node.text;
+    dialogEl.textContent = displayText;
+    updateEmotionDisplay();
     node.choices.forEach((choice) => {
       const optionButton = document.createElement("button");
       optionButton.textContent = choice.text;
       optionButton.classList.add("option-btn");
       optionButton.onclick = () => {
-        goToNode(choice.next, dialogData);
         performEffect(choice.effect);
+        goToNode(choice.next, dialogData);
       };
       optionsEl.appendChild(optionButton);
     });
   }
 
   if (node.type === "action") {
+    updateEmotionDisplay();
     node.actions.forEach((action) => {
       const actionButton = document.createElement("button");
       actionButton.textContent = action;
@@ -60,7 +84,6 @@ export function goToNode(id, dialogData) {
   }
 
   if (node.type === "ending") {
-    dialogEl.textContent = node.text;
     resolveEnding();
   }
 }
@@ -73,35 +96,68 @@ function performAction(action) {
   };
 
   const mappedAction = actionMap[action];
+  console.log("Performing action:", action, "mapped to:", mappedAction);
+
   if (mappedAction && BALANCE.ACTIONS[mappedAction]) {
     const effects = BALANCE.ACTIONS[mappedAction];
-    if (effects.trust) gameState.trust += effects.trust;
-    if (effects.truth) gameState.truth += effects.truth;
-    if (effects.pressure) gameState.pressure += effects.pressure;
+    console.log("Before:", {
+      trust: gameState.trust,
+      truth: gameState.truth,
+      pressure: gameState.pressure,
+    });
+
+    if (effects.trust)
+      gameState.trust = clampValue(gameState.trust + effects.trust);
+    if (effects.truth)
+      gameState.truth = clampValue(gameState.truth + effects.truth);
+    if (effects.pressure)
+      gameState.pressure = clampValue(gameState.pressure + effects.pressure);
+
+    console.log("After:", {
+      trust: gameState.trust,
+      truth: gameState.truth,
+      pressure: gameState.pressure,
+    });
+    evaluateEmotion();
   }
 }
 
 function performEffect(effect) {
-  if (effect.trust) gameState.trust += effect.trust;
-  if (effect.truth) gameState.truth += effect.truth;
-  if (effect.pressure) gameState.pressure += effect.pressure;
+  if (!effect) return;
+  console.log("Performing effect:", effect);
+  console.log("Before:", {
+    trust: gameState.trust,
+    truth: gameState.truth,
+    pressure: gameState.pressure,
+  });
+
+  if (effect.trust)
+    gameState.trust = clampValue(gameState.trust + effect.trust);
+  if (effect.truth)
+    gameState.truth = clampValue(gameState.truth + effect.truth);
+  if (effect.pressure)
+    gameState.pressure = clampValue(gameState.pressure + effect.pressure);
+
+  console.log("After:", {
+    trust: gameState.trust,
+    truth: gameState.truth,
+    pressure: gameState.pressure,
+  });
+  evaluateEmotion();
 }
 
 function resolveEnding() {
-  if (gameState.truth >= 25 && gameState.trust >= 50) {
-    dialogEl.textContent =
-      "Kamu menemukan portal dimensi rahasia di basement rumah 1A. Bu Sari ternyata adalah ilmuwan yang kabur karena eksperimennya lepas kendali. Kasus terpecahkan!";
-  } else if (gameState.truth >= 25 && gameState.trust < 40) {
-    dialogEl.textContent =
-      "Portal meledak dan menelanmu ke dimensi lain. GAME OVER.";
-  } else {
-    dialogEl.textContent =
-      "Rumah 1A diratakan dengan tanah. Misteri selamanya terkubur.";
-  }
+  const endingText =
+    typeof gameState.node.text === "function"
+      ? gameState.node.text()
+      : gameState.node.text;
+  dialogEl.textContent = endingText;
+  updateEmotionDisplay();
 
   optionsEl.innerHTML = `
     <p>Trust: ${gameState.trust}</p>
     <p>Truth: ${gameState.truth}</p>
     <p>Pressure: ${gameState.pressure}</p>
+    <p>Emosi: ${gameState.emotion}</p>
   `;
 }

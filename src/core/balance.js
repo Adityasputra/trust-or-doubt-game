@@ -5,7 +5,7 @@ export const BALANCE = {
   ACTIONS: {
     accept: { trust: +5, pressure: -10 },
     doubt: { trust: -5, truth: +5, pressure: +10 },
-    question: { truth: +0, pressure: +5 },
+    question: { truth: +3, pressure: +5 },
     objection: { trust: -10, pressure: +15 },
   },
 
