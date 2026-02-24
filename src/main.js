@@ -1,17 +1,43 @@
 import { goToNode } from "./core/engine.js";
-// import { renderCaseBook } from "./ui/renderBook.js";
+import { gameState } from "./core/state.js";
+import { renderCaseBook } from "./ui/renderBook.js";
 import { pickRandomCase } from "./utils/randomCases.js";
 
+// DOM Elements
+const sceneBook = document.getElementById("scene-book");
+const sceneInterrogation = document.getElementById("scene-interrogation");
+const startBtn = document.getElementById("startInterrogation");
+
+// Initialize game
 const caseData = pickRandomCase();
-console.log("Case Data:", caseData);
-// renderCaseBook(caseData);
+console.log("Case loaded:", caseData.id, caseData.title);
+renderCaseBook(caseData);
 
-const startNodeKey = Object.keys(caseData.data).find(key => key.startsWith("start_"));
-console.log("Start Node Key:", startNodeKey);
+const startNodeKey = Object.keys(caseData.data).find((key) =>
+  key.startsWith("start_"),
+);
+console.log("Start node:", startNodeKey);
 
-if (startNodeKey) {
-  console.log("Memulai game dengan node:", startNodeKey);
-  goToNode(startNodeKey, caseData);
-} else {
-  console.error("Node awal tidak ditemukan!");
+// Event Listeners
+startBtn.addEventListener("click", () => {
+  console.log("Starting investigation for:", caseData.title);
+  sceneBook.style.display = "none";
+  sceneInterrogation.style.display = "block";
+  startGame();
+});
+
+// Functions
+function startGame() {
+  if (startNodeKey) {
+    goToNode(startNodeKey, caseData);
+  } else {
+    console.error("Node awal tidak ditemukan!");
+  }
+}
+
+export function resetGameState() {
+  gameState.trust = 50;
+  gameState.truth = 0;
+  gameState.pressure = 0;
+  gameState.emotion = "calm";
 }

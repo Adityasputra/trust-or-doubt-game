@@ -20,23 +20,13 @@ function clearUI() {
 
 export function goToNode(id, dialogData) {
   clearUI();
-  console.log("goToNode dipanggil:", { id, dialogData });
   const node = dialogData.data[id];
-  console.log("Node found:", node);
   gameState.node = id;
-  // console.log("Navigating to node:", id);
-  // console.log("Dialog data:", dialogData);
-
-  // console.log("Node data:", node);
-  // console.log("Node type:", node.type);
-
-  // console.log(node);
 
   if (node.type === "story" || node.type === "dialog") {
     const displayText =
       typeof node.text === "function" ? node.text() : node.text;
     
-    // Tampilkan speaker jika ada
     if (node.speaker) {
       dialogEl.innerHTML = `<strong style="color: #4a9eff;">${node.speaker}:</strong><br>${displayText}`;
     } else {
@@ -96,15 +86,9 @@ function performAction(action) {
   };
 
   const mappedAction = actionMap[action];
-  console.log("Performing action:", action, "mapped to:", mappedAction);
 
   if (mappedAction && BALANCE.ACTIONS[mappedAction]) {
     const effects = BALANCE.ACTIONS[mappedAction];
-    console.log("Before:", {
-      trust: gameState.trust,
-      truth: gameState.truth,
-      pressure: gameState.pressure,
-    });
 
     if (effects.trust)
       gameState.trust = clampValue(gameState.trust + effects.trust);
@@ -113,23 +97,12 @@ function performAction(action) {
     if (effects.pressure)
       gameState.pressure = clampValue(gameState.pressure + effects.pressure);
 
-    console.log("After:", {
-      trust: gameState.trust,
-      truth: gameState.truth,
-      pressure: gameState.pressure,
-    });
     evaluateEmotion();
   }
 }
 
 function performEffect(effect) {
   if (!effect) return;
-  console.log("Performing effect:", effect);
-  console.log("Before:", {
-    trust: gameState.trust,
-    truth: gameState.truth,
-    pressure: gameState.pressure,
-  });
 
   if (effect.trust)
     gameState.trust = clampValue(gameState.trust + effect.trust);
@@ -138,11 +111,6 @@ function performEffect(effect) {
   if (effect.pressure)
     gameState.pressure = clampValue(gameState.pressure + effect.pressure);
 
-  console.log("After:", {
-    trust: gameState.trust,
-    truth: gameState.truth,
-    pressure: gameState.pressure,
-  });
   evaluateEmotion();
 }
 

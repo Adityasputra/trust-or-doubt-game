@@ -6,12 +6,10 @@ export function evaluateEmotion() {
 
   console.log("Evaluating emotion - Pressure:", p, "Trust:", t);
 
-  // Pressure-based emotions (prioritized)
   if (p >= 60) gameState.emotion = "angry";
   else if (p >= 40) gameState.emotion = "afraid";
   else if (p >= 20) gameState.emotion = "nervous";
   else if (p >= 10) gameState.emotion = "anxious";
-  // Trust-based emotions
   else if (t >= 70) gameState.emotion = "happy";
   else if (t <= 20) gameState.emotion = "sad";
   else gameState.emotion = "calm";

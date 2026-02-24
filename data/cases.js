@@ -19,10 +19,10 @@ export const cases = [
   },
   {
     id: "3",
-    title: "Kasus Kehilangan di Museum",
+    title: "Mayat di Gudang Pelabuhan",
     description:
-      "Sebuah karya seni langka hilang dari museum. Ada petunjuk yang menunjukkan adanya kerugian internal.",
-    suspect: "Pengurus Museum",
+      "Mayat seorang pekerja pelabuhan ditemukan di gudang tua. Tubuhnya penuh luka tusuk.",
+    suspect: "Kapten Kapal",
     data: caseMurder.case_murder_3,
   },
 ];
