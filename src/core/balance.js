@@ -1,12 +1,14 @@
 export const BALANCE = {
   TRUST_MAX: 100,
+  TRUTH_MAX: 100,
   PRESSURE_MAX: 100,
 
   ACTIONS: {
-    accept: { trust: +5, pressure: -10 },
+    believe: { trust: +10, pressure: -5 },
     doubt: { trust: -5, truth: +5, pressure: +10 },
     question: { truth: +3, pressure: +5 },
-    objection: { trust: -10, pressure: +15 },
+    accept: { trust: +5, pressure: -10 },
+    objection: { trust: -10, truth: +10, pressure: +15 },
   },
 
   PRESENT: {
