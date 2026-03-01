@@ -4,7 +4,7 @@ export const caseMurder = {
       title: "Kasus Pembunuhan di Rumah 1A",
       slug: "kasus-pembunuhan-di-rumah-1a",
       suspect: "Bu Sari",
-      portrait: "https://example.com/pontrait_bu_sari.jpg",
+      portrait: "https://example.com/portrait_bu_sari.jpg",
       description:
         "Seorang wanita bernama Bu Sari ditemukan meninggal di rumahnya yang kosong selama 3 bulan. Tidak ada bukti fisik yang menunjukkan adanya pembunuhan, tetapi ada beberapa indikasi aneh yang muncul saat penyelidikan awal.",
       chronology:
@@ -94,6 +94,18 @@ export const caseMurder = {
             effect: {},
             next: "dialog_dismiss",
           },
+          {
+            text: "[Tekan] Anda terlihat sangat ketakutan. Apa yang sebenarnya Anda sembunyikan?",
+            effect: { truth: 10, pressure: 10 },
+            requiresEmotion: ["nervous", "afraid", "anxious"],
+            next: "dialog_pressure_1",
+          },
+          {
+            text: "[Tenangkan] Saya percaya Anda. Ceritakan dengan tenang apa yang terjadi.",
+            effect: { trust: 10 },
+            requiresEmotion: ["calm", "happy"],
+            next: "dialog_calm_1",
+          },
         ],
       },
 
@@ -117,6 +129,22 @@ export const caseMurder = {
         type: "dialog",
         speaker: "Pak Budi",
         text: "Bukan lampu rusak, Pak! Saya serius! Listrik rumah ini sudah diputus PLN sejak Bu Sari pindah. Tidak mungkin ada lampu yang menyala. Lagipula, cahaya itu... hidup, Pak. Bergerak-gerak seperti ada sesuatu di baliknya. Saya sudah 20 tahun kerja sebagai satpam di kompleks ini, sudah lihat banyak hal aneh. Tapi yang semalam itu... berbeda. Membuat bulu kuduk saya berdiri.",
+        next: "action_1",
+      },
+
+      dialog_pressure_1: {
+        type: "dialog",
+        speaker: "Pak Budi",
+        text: "Se-sembunyikan?! Tidak, Pak! Saya tidak menyembunyikan apa-apa! Tapi... baiklah, ada satu hal yang belum saya ceritakan. Sebenarnya, tiga hari sebelum Bu Sari pergi, saya melihat dia membawa peralatan aneh ke dalam rumah. Tabung-tabung besar, kabel-kabel tebal... seperti peralatan laboratorium. Waktu saya tanya, dia bilang itu untuk 'proyek pribadi'. Saya tidak mau ikut campur urusan penghuni, jadi saya diam saja. Sekarang saya menyesal tidak bertanya lebih jauh...",
+        recordStatement: "statement_time",
+        next: "action_1",
+      },
+
+      dialog_calm_1: {
+        type: "dialog",
+        speaker: "Pak Budi",
+        text: "Terima kasih, Pak Detektif. Jarang ada yang mau dengar cerita saya sampai selesai. Sebenarnya, Bu Sari itu orang baik. Dia sering kasih saya kue kalau Lebaran. Tapi belakangan... dia berubah. Semakin jarang keluar, sering begadang sampai larut malam. Lampu di lantai dua menyala terus sampai subuh. Tetangga sempat komplain karena kadang terdengar suara berdengung dari rumahnya. Saya pikir dia punya hobi aneh. Tidak pernah saya sangka akan jadi seperti ini...",
+        recordStatement: "statement_home",
         next: "action_1",
       },
 
@@ -214,6 +242,12 @@ export const caseMurder = {
             effect: { trust: 5, truth: 5 },
             next: "dialog_backup",
           },
+          {
+            text: "[Berani] Masuk langsung tanpa senter. Kegelapan tidak akan menghentikanku.",
+            effect: { truth: 20, pressure: 15 },
+            requiresEmotion: ["calm", "angry"],
+            next: "dialog_brave",
+          },
         ],
       },
 
@@ -238,6 +272,14 @@ export const caseMurder = {
         next: "option_final",
       },
 
+      dialog_brave: {
+        type: "dialog",
+        speaker: "Narasi",
+        text: "Tanpa ragu, kamu mematikan sentermu dan membiarkan kegelapan menyelimuti. Matamu perlahan terbiasa dengan gelap. Kamu mengandalkan insting dan pendengaranmu. Suara dengung membimbingmu ke arah basement. Di kegelapan total, kamu menemukan sesuatu yang tidak terlihat sebelumnya—garis-garis bercahaya di dinding, seperti sirkuit elektronik yang berdenyut lemah. Peta menuju sumber energi. Dengan mengikuti pola cahaya samar ini, kamu menemukan panel kontrol tersembunyi di balik tangga. Tombol darurat emergency shutdown berkedip merah. Ini mungkin cara mematikan apapun yang ada di bawah sana.",
+        collectEvidence: "neighbor_testimony",
+        next: "option_final",
+      },
+
       option_final: {
         type: "option",
         choices: [
@@ -258,22 +300,53 @@ export const caseMurder = {
         type: "ending",
         conditions: [
           {
-            id: "good_ending",
-            text: "Dengan keberanian yang tersisa, kamu membuka pintu basement. Cahaya hijau menyilaukan matamu sesaat. Saat pandangan mulai jelas, kamu melihatnya—sebuah lingkaran energi raksasa melayang di tengah ruangan, berputar perlahan seperti pusaran air. Portal. Di sekelilingnya, mesin-mesin canggih berkedip dan berdengung. Di pojok ruangan, kamu menemukan catatan terakhir Dr. Sari Wijaya: 'Jika seseorang membaca ini, tolong hentikan mesin utama. Eksperimen ini sudah di luar kendali. Saya tidak bisa menutupnya sendirian.' Dengan petunjuk itu, kamu berhasil mematikan mesin dan menutup portal. Kasus terpecahkan—Bu Sari adalah ilmuwan yang mencoba membuka gerbang ke dimensi lain, dan eksperimennya hampir menghancurkan seluruh kompleks perumahan.",
+            id: "perfect_ending",
+            text: "Dengan keberanian dan kebijaksanaan yang seimbang, kamu membuka pintu basement sambil meminta backup tetap siaga. Cahaya hijau menyilaukan matamu sesaat. Saat pandangan mulai jelas, kamu melihatnya—sebuah lingkaran energi raksasa melayang di tengah ruangan. Portal. Di pojok ruangan, kamu menemukan catatan terakhir Dr. Sari Wijaya beserta manual lengkap cara mematikan mesin. Dengan koordinasi tim yang sempurna, portal berhasil ditutup dengan aman. Yang mengejutkan, Dr. Sari Wijaya sendiri muncul dari balik portal—dia tidak mati, tapi terjebak di dimensi lain selama 3 bulan! Berkat penyelidikanmu yang cermat dan keputusan yang tepat, Bu Sari berhasil diselamatkan. Kasus ini menjadi terobosan ilmiah terbesar abad ini, dan namamu tercatat dalam sejarah sebagai detektif yang membuka pintu ke dimensi baru.",
+            requires: {
+              truth: 25,
+              trust: 15,
+            },
+          },
+          {
+            id: "hero_ending",
+            text: "Dengan keberanian yang tersisa, kamu membuka pintu basement. Cahaya hijau menyilaukan matamu sesaat. Saat pandangan mulai jelas, kamu melihatnya—sebuah lingkaran energi raksasa melayang di tengah ruangan, berputar perlahan seperti pusaran air. Portal. Di sekelilingnya, mesin-mesin canggih berkedip dan berdengung. Di pojok ruangan, kamu menemukan catatan terakhir Dr. Sari Wijaya: 'Jika seseorang membaca ini, tolong hentikan mesin utama. Eksperimen ini sudah di luar kendali.' Dengan petunjuk itu, kamu berhasil mematikan mesin dan menutup portal. Kasus terpecahkan—Bu Sari adalah ilmuwan yang mencoba membuka gerbang ke dimensi lain, dan eksperimennya hampir menghancurkan seluruh kompleks perumahan.",
             requires: {
               truth: 20,
             },
           },
           {
-            id: "bad_ending",
-            text: "Kamu memutuskan bahwa keselamatan adalah prioritas utama. Dengan cepat, kamu mengevakuasi warga sekitar dan memasang garis polisi di sekeliling rumah 1A. Tim SWAT dan ahli bahan peledak didatangkan. Tapi saat mereka masuk ke rumah... tidak ada apa-apa. Basement kosong. Tidak ada mesin, tidak ada cahaya hijau, tidak ada bukti apapun. Hanya ruangan kosong berdebu. Warga mulai berbisik bahwa kamu dan Pak Budi berhalusinasi. Kasus ini ditutup sebagai 'laporan palsu'. Tapi kamu tahu yang kau lihat itu nyata. Seseorang—atau sesuatu—telah membersihkan semua bukti sebelum tim tiba. Misteri rumah 1A tetap tidak terpecahkan, dan kamu tidak akan pernah bisa melupakan cahaya hijau itu.",
+            id: "cautious_ending",
+            text: "Kamu memutuskan bahwa keselamatan adalah prioritas utama. Dengan cepat, kamu mengevakuasi warga sekitar dan memasang garis polisi di sekeliling rumah 1A. Tim khusus dari Badan Tenaga Nuklir didatangkan setelah kamu melaporkan tentang kemungkinan eksperimen ilegal. Mereka menemukan laboratorium rahasia di basement dan berhasil mematikan mesin sebelum terjadi bencana. Bu Sari dinyatakan meninggal dalam eksperimen yang gagal. Meski kamu tidak langsung memecahkan kasus, keputusanmu yang hati-hati menyelamatkan nyawa banyak orang. Kamu dipuji sebagai detektif yang mengutamakan keselamatan publik.",
             requires: {
               trust: 20,
             },
           },
           {
+            id: "dark_ending",
+            text: "Tekanan dari atasan dan desakan warga membuatmu gegabah. Kamu memaksa masuk ke basement tanpa persiapan memadai. Saat pintu besi terbuka, gelombang energi dahsyat menyapu tubuhmu. Portal yang tidak stabil meledak, menghancurkan separuh rumah 1A. Kamu selamat, tapi terluka parah dan harus pensiun dini. Pak Budi yang ikut bersamamu tidak seberuntung itu—dia koma selama berbulan-bulan. Rumah 1A kini hanya puing-puing, dan rahasia Dr. Sari Wijaya terkubur selamanya di bawah reruntuhan. Kompleks Griya Asri ditinggalkan penduduknya, menjadi kampung mati yang dihindari semua orang.",
+            requires: {
+              pressure: 20,
+            },
+          },
+          {
+            id: "secret_ending",
+            text: "Berkat bukti kesaksian tetangga yang kamu kumpulkan, kamu menyadari ada pola aneh—semua saksi melihat cahaya hijau di waktu yang berbeda-beda. Ini bukan portal biasa, tapi mesin waktu! Kamu memutuskan untuk masuk ke portal sebelum menutupnya. Di sisi lain, kamu bertemu Dr. Sari Wijaya versi muda, 30 tahun yang lalu, sedang memulai eksperimennya. Dengan hati-hati, kamu memperingatkannya tentang bahaya eksperimen ini. Dia mendengarkan. Saat kamu kembali ke masa kini, rumah 1A tidak pernah ada—sejarah telah berubah. Tidak ada yang ingat tentang kasus ini kecuali kamu. Di sakumu, kamu menemukan catatan terima kasih dari Dr. Sari: 'Terima kasih telah menyelamatkan masa depanku.'",
+            requires: {
+              truth: 15,
+              collectedEvidence: ["neighbor_testimony"],
+            },
+          },
+          {
+            id: "bittersweet_ending",
+            text: "Kamu berhasil menutup portal, tapi dengan harga yang mahal. Saat mesin utama dimatikan, ledakan kecil terjadi. Kamu terluka ringan, dan yang lebih menyakitkan—jurnal penelitian Dr. Sari Wijaya hancur total. Dunia tidak akan pernah tahu tentang penemuan luar biasa ini. Bu Sari sendiri ditemukan tewas di sisi lain portal, tubuhnya membeku dalam waktu. Kasus ini ditutup sebagai 'kecelakaan laboratorium ilegal'. Kamu mendapat penghargaan atas keberanianmu, tapi setiap malam kamu bertanya-tanya: bagaimana jika ada cara lain? Rahasia dimensi lain tetap menjadi misteri yang akan kamu bawa sampai mati.",
+            requires: {
+              truth: 10,
+              trust: 10,
+            },
+          },
+          {
             id: "ending_neutral",
-            text: "Kamu membuka pintu basement dengan hati-hati, senter tinggi. Tapi yang kau temukan hanyalah ruangan kosong yang berdebu. Tidak ada mesin, tidak ada portal, tidak ada cahaya hijau. Hanya dinding beton dingin dan rak-rak kosong. Kamu berdiri di sana dalam kebingungan. Apakah semuanya hanya ilusi? Halusinasi massal? Fenomena alam yang aneh? Saat kamu kembali ke lantai atas, matahari sudah mulai terbit. Rumah 1A terlihat biasa saja di bawah cahaya pagi—hanya rumah tua kosong yang ditinggalkan pemiliknya. Kasus ini tetap menjadi misteri yang tidak terpecahkan. Tapi sesekali, saat patroli malam, Pak Budi masih melaporkan melihat kedipan hijau samar dari jendela lantai dua. Mungkin ada hal-hal di dunia ini yang memang tidak bisa dijelaskan.",
+            text: "Kamu membuka pintu basement dengan hati-hati, senter tinggi. Tapi yang kau temukan hanyalah ruangan kosong yang berdebu. Tidak ada mesin, tidak ada portal, tidak ada cahaya hijau. Hanya dinding beton dingin dan rak-rak kosong. Kamu berdiri di sana dalam kebingungan. Apakah semuanya hanya ilusi? Halusinasi massal? Fenomena alam yang aneh? Saat kembali ke lantai atas, matahari sudah mulai terbit. Rumah 1A terlihat biasa saja di bawah cahaya pagi. Kasus ini tetap menjadi misteri yang tidak terpecahkan. Tapi sesekali, saat patroli malam, Pak Budi masih melaporkan melihat kedipan hijau samar dari jendela lantai dua. Mungkin ada hal-hal di dunia ini yang memang tidak bisa dijelaskan.",
             default: true,
           },
         ],
@@ -390,6 +463,18 @@ export const caseMurder = {
             effect: { trust: 5 },
             next: "dialog_witness_case2",
           },
+          {
+            text: "[Intimidasi] Saya tahu Anda berbohong. Tato jangkar itu... saya sudah lihat di CCTV!",
+            effect: { truth: 15, pressure: 20 },
+            requiresEmotion: ["nervous", "afraid"],
+            next: "dialog_intimidate_case2",
+          },
+          {
+            text: "[Empati] Anda pasti sangat terguncang menemukan mayat seperti itu. Mau cerita?",
+            effect: { trust: 15 },
+            requiresEmotion: ["sad", "calm"],
+            next: "dialog_empathy_case2",
+          },
         ],
       },
 
@@ -413,6 +498,22 @@ export const caseMurder = {
         type: "dialog",
         speaker: "Kapten Hendra",
         text: "Ada pak petugas keamanan pelabuhan yang datang setelah saya teriak. Namanya Pak Darman, sudah tua, jaga malam di pos depan. Dia yang bantu saya menelepon polisi karena tangan saya gemetar. Tapi waktu saya pertama kali masuk gudang dan menemukan mayat... tidak ada siapa-siapa. Gudang itu sepi. Hanya saya dan... Joko. Atau apa yang tersisa darinya.",
+        next: "action_1_case2",
+      },
+
+      dialog_intimidate_case2: {
+        type: "dialog",
+        speaker: "Kapten Hendra",
+        text: "CCTV?! Tu-tunggu dulu, Pak! Saya... saya memang turun dari kapal sebentar malam itu, tapi bukan untuk membunuh siapa-siapa! Saya hanya... hanya pergi ke warung kopi sebentar. Tato ini? Banyak pelaut punya tato jangkar, Pak! Ini bukan bukti! Kenapa Bapak langsung menuduh saya?! Saya yang melaporkan kematian Joko! Kalau saya pembunuhnya, untuk apa saya repot-repot memanggil polisi?!",
+        recordStatement: "statement_alibi",
+        next: "action_1_case2",
+      },
+
+      dialog_empathy_case2: {
+        type: "dialog",
+        speaker: "Kapten Hendra",
+        text: "Ya... saya memang sangat terguncang, Pak. Joko itu... dia sebenarnya lebih dari sekadar buruh biasa bagi saya. Dia sudah seperti adik sendiri. Dulu, waktu kapal saya nyaris bangkrut, Joko yang pertama menawarkan diri kerja tanpa bayaran dulu sampai usaha saya pulih. Orang seperti itu mana mungkin punya musuh? Tapi belakangan... dia memang berubah. Lebih pendiam, sering melamun. Kalau saya tanya, dia cuma bilang 'ada masalah keluarga'. Sekarang saya menyesal tidak mendesak lebih jauh.",
+        recordStatement: "statement_relationship",
         next: "action_1_case2",
       },
 
@@ -510,6 +611,12 @@ export const caseMurder = {
             effect: { truth: 10, trust: 5 },
             next: "dialog_cctv_case2",
           },
+          {
+            text: "[Agresif] Geledah kapal Samudra Jaya sekarang juga tanpa surat perintah!",
+            effect: { truth: 20, trust: -10, pressure: 15 },
+            requiresEmotion: ["angry"],
+            next: "dialog_raid_case2",
+          },
         ],
       },
 
@@ -534,6 +641,14 @@ export const caseMurder = {
         next: "option_final_case2",
       },
 
+      dialog_raid_case2: {
+        type: "dialog",
+        speaker: "Narasi",
+        text: "Tanpa menunggu surat perintah, kamu memimpin tim langsung ke kapal Samudra Jaya. Kapten Hendra terkejut dan marah, tapi tidak bisa berbuat banyak. Di dalam kabin kapten, kamu menemukan brankas tersembunyi di bawah lantai. Di dalamnya: tumpukan uang tunai, beberapa paspor palsu, dan yang paling penting—sarung tangan berlumuran darah yang tersimpan dalam kantong plastik. Kapten Hendra memucat. 'Tu-tunggu, Pak! Itu bukan milik saya! Ada yang menjebak saya!' Tapi ekspresi wajahnya mengatakan sebaliknya.",
+        collectEvidence: "bloody_rope",
+        next: "option_final_case2",
+      },
+
       option_final_case2: {
         type: "option",
         choices: [
@@ -547,6 +662,12 @@ export const caseMurder = {
             effect: { trust: 15 },
             next: "ending_case2",
           },
+          {
+            text: "[Negosiasi] Tawarkan plea bargain—dia mengaku, kita dapat nama bosnya.",
+            effect: { truth: 10, trust: 10 },
+            requiresEmotion: ["calm", "nervous"],
+            next: "ending_case2",
+          },
         ],
       },
 
@@ -554,17 +675,56 @@ export const caseMurder = {
         type: "ending",
         conditions: [
           {
-            id: "good_ending",
-            text: "Dengan bukti yang terkumpul—rekaman CCTV, kesaksian Andi, dan pelacakan nomor telepon—kamu menghadapi Kapten Hendra di kapalnya. Awalnya dia menyangkal, tapi saat kamu tunjukkan foto tato jangkarnya yang terekam CCTV, dia akhirnya runtuh. 'Joko tahu terlalu banyak,' akunya dengan suara parau. 'Dia mengancam akan melaporkan bisnis penyelundupan kami ke polisi. Saya tidak bermaksud membunuhnya... tapi dia terus melawan. Tali itu... saya hanya ingin dia diam.' Kapten Hendra ditangkap dan jaringan penyelundupan di pelabuhan akhirnya terbongkar. Kasus selesai.",
+            id: "perfect_ending",
+            text: "Dengan kombinasi bukti kuat dan pendekatan yang tepat, kamu tidak hanya menangkap Kapten Hendra, tapi juga membongkar seluruh jaringan penyelundupan internasional. Rekaman CCTV, kesaksian Andi, dan pelacakan nomor telepon membentuk kasus yang tidak terbantahkan. Kapten Hendra mengaku dan memberikan nama-nama bosnya sebagai plea bargain. Operasi gabungan polisi dan TNI AL berhasil menangkap 15 orang sindikat dan menyita barang bukti senilai miliaran rupiah. Keluarga Joko Santoso mendapat keadilan dan kompensasi. Kamu dianugerahi Bintang Bhayangkara dan ditawarkan posisi di Interpol. Pelabuhan Tanjung Emas kini lebih bersih dari sebelumnya.",
+            requires: {
+              truth: 30,
+              trust: 15,
+            },
+          },
+          {
+            id: "hero_ending",
+            text: "Dengan bukti yang terkumpul—rekaman CCTV, kesaksian Andi, dan pelacakan nomor telepon—kamu menghadapi Kapten Hendra di kapalnya. Awalnya dia menyangkal, tapi saat kamu tunjukkan foto tato jangkarnya yang terekam CCTV, dia akhirnya runtuh. 'Joko tahu terlalu banyak,' akunya dengan suara parau. 'Dia mengancam akan melaporkan bisnis penyelundupan kami ke polisi. Saya tidak bermaksud membunuhnya... tapi dia terus melawan.' Kapten Hendra ditangkap dan jaringan penyelundupan di pelabuhan akhirnya terbongkar. Kasus selesai.",
             requires: {
               truth: 25,
             },
           },
           {
-            id: "bad_ending",
-            text: "Kamu memutuskan menunggu lebih banyak bukti sebelum bertindak. Tapi keputusan itu memberikan waktu bagi Kapten Hendra untuk kabur. Malam itu, kapal 'Samudra Jaya' berlayar diam-diam meninggalkan pelabuhan. Saat tim penyergap tiba, kapal sudah hilang di kegelapan laut. Kapten Hendra menjadi buronan, dan kasus pembunuhan Joko Santoso tidak pernah ditutup secara resmi. Keluarga korban tidak mendapat keadilan yang mereka cari. Di pelabuhan, bisikan beredar bahwa pembunuh masih berkeliaran bebas di lautan.",
+            id: "cautious_ending",
+            text: "Kamu memutuskan untuk membangun kasus yang lebih kuat sebelum bertindak. Dengan kesabaran, kamu mengumpulkan lebih banyak bukti dan saksi. Prosesnya memakan waktu berminggu-minggu, tapi hasilnya solid. Kapten Hendra ditangkap di tengah laut oleh tim gabungan saat mencoba melarikan diri. Bukti yang kamu kumpulkan tidak terbantahkan di pengadilan—dia divonis 20 tahun penjara. Meski lambat, keadilan tetap ditegakkan. Keluarga Joko bersyukur atas ketekunanmu.",
             requires: {
               trust: 25,
+            },
+          },
+          {
+            id: "dark_ending",
+            text: "Tekanan untuk segera menyelesaikan kasus membuatmu ceroboh. Kamu menuduh Kapten Hendra secara terbuka tanpa bukti cukup. Dia menggugat balik atas pencemaran nama baik dan menang. Karirmu hancur—kamu dicopot dari jabatan dan menjadi bahan tertawaan media. Yang lebih buruk, pembunuh sebenarnya—Andi, kru muda yang memberikan kesaksian palsu—berhasil kabur dengan membawa rahasia. Dia-lah yang membunuh Joko karena utang judi, dan sengaja menjebak Kapten Hendra. Kamu tidak pernah bisa memaafkan dirimu sendiri atas kebodohan ini.",
+            requires: {
+              pressure: 25,
+            },
+          },
+          {
+            id: "secret_ending",
+            text: "Analisis mendalam terhadap pesan di ponsel korban mengungkap kebenaran mengejutkan: Joko Santoso adalah agen penyamaran dari BNN yang sedang menginvestigasi penyelundupan narkoba! Kamu segera menghubungi BNN dan bekerja sama dalam operasi rahasia. Kapten Hendra ditangkap saat transaksi besar, bersama dengan bandar narkoba lintas negara. Misi Joko tidak sia-sia—jaringan narkoba internasional yang dia selidiki selama dua tahun akhirnya tumbang. Namanya diabadikan sebagai pahlawan yang gugur dalam tugas, dan kamu menjadi bagian dari kisah kepahlawanannya.",
+            requires: {
+              truth: 20,
+              collectedEvidence: ["phone_messages"],
+            },
+          },
+          {
+            id: "tragic_ending",
+            text: "Kamu berhasil menangkap Kapten Hendra, tapi kebenaran yang terungkap di pengadilan menghancurkan hatimu. Joko Santoso ternyata bukan korban yang tidak bersalah—dia adalah pemerasan yang mengancam keluarga Kapten Hendra. Istrinya sakit keras dan butuh biaya pengobatan. Joko mengancam akan membocorkan penyelundupan kecil-kecilan yang Kapten lakukan untuk biaya rumah sakit, kecuali dibayar mahal. Dalam keputusasaan, Kapten Hendra kehilangan kendali. Di pengadilan, hakim memberikan keringanan hukuman. Kamu menyadari bahwa tidak semua kasus memiliki jawaban hitam-putih.",
+            requires: {
+              truth: 15,
+              trust: 20,
+            },
+          },
+          {
+            id: "conspiracy_ending",
+            text: "Semakin dalam kamu menyelidiki, semakin berbahaya situasinya. Ternyata pelabuhan ini dikendalikan oleh kartel yang punya orang dalam di kepolisian. Saat kamu hampir membongkar semuanya, kamu diserang di malam hari. Beruntung kamu selamat, tapi semua bukti hilang—dicuri. Kapten Hendra ditemukan tewas di selnya, 'bunuh diri' kata laporan resmi. Kamu tahu ada konspirasi besar yang menutupi kebenaran. Kamu mengundurkan diri dari kepolisian dan menjadi jurnalis investigasi, bertekad untuk suatu hari mengungkap seluruh jaringan korup ini.",
+            requires: {
+              pressure: 15,
+              truth: 10,
             },
           },
           {
@@ -685,6 +845,18 @@ export const caseMurder = {
             effect: { trust: 5 },
             next: "dialog_food_case3",
           },
+          {
+            text: "[Tuduhan] Anda mewarisi semua hartanya, bukan? Motif yang sempurna.",
+            effect: { truth: 15, trust: -15, pressure: 20 },
+            requiresEmotion: ["angry", "nervous"],
+            next: "dialog_accuse_case3",
+          },
+          {
+            text: "[Simpati] Saya turut berduka. Pasti berat kehilangan orang tercinta.",
+            effect: { trust: 15 },
+            requiresEmotion: ["sad", "calm"],
+            next: "dialog_sympathy_case3",
+          },
         ],
       },
 
@@ -707,6 +879,21 @@ export const caseMurder = {
         speaker: "Nyonya Ratna",
         text: "Sebelum pertunjukan, Baskara hanya minum teh hangat di ruang ganti. Itu kebiasaannya untuk menjaga suara. Tehnya disediakan oleh asisten pribadinya, Mbak Lina, yang sudah bekerja untuk kami selama 15 tahun. Tidak mungkin dia yang meracuni. Selain itu, Baskara tidak makan apa-apa—dia selalu berpuasa sebelum pertunjukan besar. Racun itu... pasti masuk saat dia di atas panggung. Piala yang dia minum saat adegan perjamuan... ada yang menaruh racun di sana. Tapi siapa yang punya akses ke prop teater?",
         recordStatement: "statement_drink",
+        next: "action_1_case3",
+      },
+
+      dialog_accuse_case3: {
+        type: "dialog",
+        speaker: "Nyonya Ratna",
+        text: "APA?! Berani-beraninya Bapak menuduh saya?! Suami saya baru saja meninggal dan Bapak sudah memikirkan soal harta?! Ya, saya mewarisi semuanya—karena saya ISTRINYA! 25 tahun pernikahan! Bapak pikir saya membunuh cinta sejati saya demi uang?! Saya sudah kaya sejak sebelum menikah dengan Baskara! Keluarga saya pemilik pabrik tekstil terbesar di Jawa! Kalau Bapak mau mencari pembunuh, cari di tempat lain! Bukan di rumah janda yang sedang berduka!",
+        next: "action_1_case3",
+      },
+
+      dialog_sympathy_case3: {
+        type: "dialog",
+        speaker: "Nyonya Ratna",
+        text: "Terima kasih, Pak Detektif... Anda orang pertama yang bicara seperti itu sejak semalam. Semua orang hanya bertanya soal penyelidikan, bukti, tersangka... tidak ada yang peduli bahwa saya baru saja kehilangan separuh jiwa saya. Baskara itu... dia bukan hanya suami. Dia sahabat, partner, segalanya. Kami melewati begitu banyak hal bersama. Masa-masa sulit di awal karir, keguguran pertama kami, kesuksesan pertamanya di Broadway... Sekarang saya harus menghadapi semua ini sendirian.",
+        recordStatement: "statement_relationship",
         next: "action_1_case3",
       },
 
@@ -805,6 +992,12 @@ export const caseMurder = {
             effect: { truth: 5, trust: 10 },
             next: "dialog_access_case3",
           },
+          {
+            text: "[Provokasi] Konfrontasi Lina langsung—tunjukkan foto Maya dan lihat reaksinya!",
+            effect: { truth: 20, pressure: 15 },
+            requiresEmotion: ["angry", "anxious"],
+            next: "dialog_confront_lina_case3",
+          },
         ],
       },
 
@@ -830,6 +1023,14 @@ export const caseMurder = {
         next: "option_final_case3",
       },
 
+      dialog_confront_lina_case3: {
+        type: "dialog",
+        speaker: "Narasi",
+        text: "Kamu menemukan Lina di ruang ganti dan langsung menunjukkan foto Maya. Reaksinya luar biasa—wajahnya memucat, tangannya gemetar, dan air mata langsung mengalir. 'Ba-bagaimana Bapak bisa dapat foto itu?!' teriaknya. 'Itu... itu ibu saya! Ya, Maya adalah ibu kandung saya! Tapi saya tidak membunuh Tuan Baskara! Ibu memang marah padanya, tapi dia tidak pernah minta saya melakukan hal seperti itu!' Lina jatuh terduduk, menangis histeris. Ini informasi besar—tapi apakah dia berbohong atau benar-benar tidak bersalah?",
+        collectEvidence: "love_letter",
+        next: "option_final_case3",
+      },
+
       option_final_case3: {
         type: "option",
         choices: [
@@ -843,6 +1044,18 @@ export const caseMurder = {
             effect: { trust: 10 },
             next: "ending_case3",
           },
+          {
+            text: "[Kasihan] Beri Lina kesempatan mengunjungi ibunya yang sekarat dulu.",
+            effect: { trust: 20, truth: 5 },
+            requiresEmotion: ["sad", "calm"],
+            next: "ending_case3",
+          },
+          {
+            text: "[Keras] Tangkap semua tersangka sekaligus—Lina, Dimas, dan Ratna!",
+            effect: { truth: 5, trust: -10, pressure: 20 },
+            requiresEmotion: ["angry"],
+            next: "ending_case3",
+          },
         ],
       },
 
@@ -850,17 +1063,64 @@ export const caseMurder = {
         type: "ending",
         conditions: [
           {
-            id: "good_ending",
-            text: "Dengan bukti yang terkumpul, kamu menghadapi Lina di ruang ganti. Awalnya dia menyangkal, tapi saat kamu menyebut nama Maya, pertahanannya runtuh. Air mata mengalir deras. 'Ibu saya mencintai Tuan Baskara seumur hidupnya,' akunya. 'Dia mengorbankan segalanya untuknya, tapi dia memilih wanita lain. Ibu tidak pernah sembuh dari luka itu. Saat dia tahu sakit kankernya sudah stadium akhir, dia memintaku melakukan satu hal terakhir: memastikan Baskara tidak bahagia dengan wanita lain. Aku tidak bisa menolak permintaan terakhir ibu...' Lina ditangkap atas tuduhan pembunuhan berencana. Maya, yang kondisinya kritis di rumah sakit, meninggal dua hari kemudian. Tragedi cinta yang berakhir dengan tragedi nyata.",
+            id: "perfect_ending",
+            text: "Kecermatanmu membuahkan hasil sempurna. Tidak hanya Lina yang tertangkap, tapi kamu juga berhasil mengungkap jaringan pemerasan yang lebih besar. Ternyata Pak Wiryo—mantan manajer teater—memanfaatkan dendam Maya dan Lina untuk menyingkirkan Baskara. Dia-lah dalang di balik semua ini, menyediakan racun dan merencanakan waktu eksekusi. Dengan kesaksian Lina dan bukti rekaman CCTV, Wiryo divonis hukuman mati. Lina mendapat keringanan karena statusnya sebagai korban manipulasi. Nyonya Ratna, meski hancur hatinya, akhirnya mendapat closure. Gedung Teater Mutiara mengadakan pertunjukan penghormatan terakhir untuk Tuan Baskara, dan kamu diundang sebagai tamu kehormatan.",
+            requires: {
+              truth: 35,
+              trust: 15,
+            },
+          },
+          {
+            id: "hero_ending",
+            text: "Dengan bukti yang terkumpul, kamu menghadapi Lina di ruang ganti. Awalnya dia menyangkal, tapi saat kamu menyebut nama Maya, pertahanannya runtuh. Air mata mengalir deras. 'Ibu saya mencintai Tuan Baskara seumur hidupnya,' akunya. 'Dia mengorbankan segalanya untuknya, tapi dia memilih wanita lain. Ibu tidak pernah sembuh dari luka itu. Saat dia tahu sakit kankernya sudah stadium akhir, dia memintaku melakukan satu hal terakhir...' Lina ditangkap atas tuduhan pembunuhan berencana. Maya meninggal dua hari kemudian. Tragedi cinta yang berakhir dengan tragedi nyata.",
             requires: {
               truth: 30,
             },
           },
           {
-            id: "bad_ending",
-            text: "Kamu memutuskan untuk fokus pada Nyonya Ratna sebagai tersangka utama. Bukti surat cinta dan kerenggangan hubungan mereka terasa cukup meyakinkan. Ratna ditangkap dan diinterogasi intensif. Tapi setelah berminggu-minggu, jaksa terpaksa melepaskannya karena tidak ada bukti fisik yang menghubungkannya dengan racun. Sementara itu, Lina menghilang—paspor dan rekeningnya dikosongkan. Dia kabur ke luar negeri, membawa rahasia pembunuhan yang tidak akan pernah terungkap. Kasus ini ditutup tanpa resolusi, dan nama Nyonya Ratna tercoreng selamanya oleh tuduhan yang tidak terbukti. Keadilan gagal ditegakkan.",
+            id: "compassionate_ending",
+            text: "Kamu mengungkap kebenaran tentang Lina dan Maya, tapi memilih pendekatan yang berbeda. Alih-alih langsung menangkap, kamu memberi Lina kesempatan untuk menyerahkan diri dan mengunjungi ibunya yang sekarat. Di samping ranjang Maya, dengan tanganmu sebagai saksi, Lina mengucapkan selamat tinggal pada ibunya untuk terakhir kali. Maya meninggal dengan tenang, mengetahui putrinya tidak akan menanggung beban sendirian. Lina menyerahkan diri keesokan harinya. Di pengadilan, cerita ini mengharukan semua orang—bahkan Nyonya Ratna meminta keringanan untuk Lina. Keadilan dan kemanusiaan berjalan beriringan.",
             requires: {
               trust: 25,
+              truth: 15,
+            },
+          },
+          {
+            id: "dark_ending",
+            text: "Tekanan media dan keluarga korban membuatmu terburu-buru. Kamu menangkap Nyonya Ratna berdasarkan bukti sirkumstansial—surat cinta dan kerenggangan hubungan. Media meliput secara sensasional. Tapi di tengah persidangan, Dimas—pemeran cadangan—bunuh diri di kamar hotelnya, meninggalkan surat pengakuan. Dialah pembunuhnya, bukan karena cinta atau dendam, tapi karena gangguan jiwa yang tidak terdeteksi. Nyonya Ratna dibebaskan, tapi hidupnya sudah hancur—nama baiknya tidak akan pernah pulih. Kamu dihukum atas kelalaian dan dipindahkan ke divisi administrasi. Karir cemerlangmu berakhir.",
+            requires: {
+              pressure: 25,
+            },
+          },
+          {
+            id: "secret_ending",
+            text: "Analisismu terhadap surat cinta mengungkap kebenaran yang tidak terduga. Tulisan tangan di surat itu BUKAN milik Maya—tapi milik Dimas! Pemeran cadangan itu menyamar sebagai pengagum wanita untuk mendekati Baskara dan mempelajari kelemahannya. Ternyata Dimas adalah putra tidak sah Baskara dari hubungan gelap puluhan tahun lalu, yang tidak pernah diakui. Dendam yang terpendam selama seumur hidup memuncak malam itu. Saat dikonfrontasi, Dimas mencoba bunuh diri tapi berhasil dicegah. Dalam sidang, cerita tragis tentang anak yang ditolak ayahnya membuat publik terpecah antara simpati dan penghakiman. Baskara, ternyata, tidaklah sesuci yang dikira.",
+            requires: {
+              truth: 25,
+              collectedEvidence: ["love_letter"],
+            },
+          },
+          {
+            id: "twist_ending",
+            text: "Semua bukti mengarah ke Lina, tapi instingmu mengatakan ada yang janggal. Penyelidikan lebih dalam mengungkap kebenaran yang mencengangkan: Nyonya Ratna-lah dalang sebenarnya! Dia sudah lama tahu tentang Maya dan Lina. Dengan licik, dia memanipulasi Lina—memberikan racun dan meyakinkannya bahwa ini 'permintaan terakhir Maya'—padahal Maya tidak pernah minta hal seperti itu. Ratna ingin menyingkirkan suami yang tidak setia dan mewarisi seluruh kekayaannya, sambil membuat orang lain menanggung dosanya. Saat bukti manipulasinya terungkap di pengadilan, topeng istri setia itu runtuh. Lina dibebaskan, Ratna dipenjara seumur hidup.",
+            requires: {
+              trust: 20,
+              truth: 20,
+            },
+          },
+          {
+            id: "supernatural_ending",
+            text: "Kasus ini membawamu ke jalur yang tidak terduga. Saat menyelidiki sejarah Gedung Teater Mutiara, kamu menemukan catatan aneh—setiap 30 tahun, ada aktor yang meninggal di atas panggung dengan cara misterius. Baskara adalah korban ketiga. Tidak ada pembunuh manusia. Teater ini... terkutuk. Dalam ritual kuno, panggung ini dibangun di atas kuburan massal korban pandemi abad 19, dan roh-roh yang marah menuntut korban secara berkala. Kamu menutup kasus dengan 'sebab kematian tidak dapat ditentukan', tapi diam-diam menghubungi paranormal untuk membersihkan gedung. Sejak itu, tidak ada lagi kematian misterius di Teater Mutiara.",
+            requires: {
+              trust: 30,
+            },
+          },
+          {
+            id: "bittersweet_ending",
+            text: "Kamu menangkap Lina dan mengungkap semua kebenaran. Tapi kemenangan ini terasa hambar. Di pengadilan, rekaman suara Maya yang sedang sekarat diputar—suara wanita tua yang hanya ingin mati dengan tenang, tanpa tahu putrinya akan berbuat sejauh ini. Lina menangis histeris, menyesal telah salah mengartikan kata-kata ibunya. Nyonya Ratna, meski mendapat keadilan untuk suaminya, kini hidup sendirian di rumah yang penuh kenangan. Dimas meninggalkan dunia teater selamanya, traumatized. Gedung Teater Mutiara ditutup untuk renovasi yang tidak pernah selesai. Semua orang kalah dalam tragedi ini, termasuk kamu.",
+            requires: {
+              truth: 20,
+              pressure: 15,
             },
           },
           {
