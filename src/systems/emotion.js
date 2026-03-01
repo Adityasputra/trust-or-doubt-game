@@ -16,3 +16,22 @@ export function evaluateEmotion() {
 
   console.log("New emotion:", gameState.emotion);
 }
+
+export function getEmotionModifier() {
+  switch (gameState.emotion) {
+    case "angry":
+      return { trust: -10, pressure: +15 };
+    case "afraid":
+      return { trust: -5, pressure: +10 };
+    case "nervous":
+      return { trust: -3, pressure: +5 };
+    case "anxious":
+      return { trust: -2, pressure: +3 };
+    case "happy":
+      return { trust: +5, pressure: -5 };
+    case "sad":
+      return { trust: -5, pressure: +5 };
+    default:
+      return { trust: 0, pressure: 0 };
+  }
+}
