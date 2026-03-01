@@ -5,7 +5,7 @@ export const gameState = {
   pressure: 0,
 
   // Emotional state
-  emotion: "calm", // calm | nervous | angry | afraid | happy | sad
+  emotion: "calm", // calm | nervous | angry | afraid | happy | sad | axious
 
   // Narrative position
   currentNode: null,
