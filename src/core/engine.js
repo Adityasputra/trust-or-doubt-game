@@ -16,20 +16,14 @@ const optionsEl = document.getElementById("options");
 const actionsEl = document.getElementById("actions");
 const emotionEl = document.getElementById("emotion");
 
+let onGameFinished = null;
+
 function updateEmotionDisplay() {
   emotionEl.textContent = `Trust: ${gameState.trust} | Truth: ${gameState.truth} | Pressure: ${gameState.pressure} | Emosi: ${gameState.emotion}`;
 }
 
-function clampTrust(value) {
-  return Math.max(0, Math.min(BALANCE.TRUST_MAX, value));
-}
-
-function clampTruth(value) {
-  return Math.max(0, Math.min(BALANCE.TRUTH_MAX, value));
-}
-
-function clampPressure(value) {
-  return Math.max(0, Math.min(BALANCE.PRESSURE_MAX, value));
+function clamp(value, max) {
+  return Math.max(0, Math.min(max, value));
 }
 
 function clearUI() {
@@ -41,7 +35,7 @@ export function goToNode(id, dialogData) {
   clearUI();
   clearCurrentStatement();
   const node = dialogData.data.nodes[id];
-  gameState.node = id;
+  gameState.currentNode = id;
 
   if (node.type === "story" || node.type === "dialog") {
     const displayText =
@@ -153,22 +147,22 @@ function performAction(action) {
   if (mappedAction && BALANCE.ACTIONS[mappedAction]) {
     const effects = BALANCE.ACTIONS[mappedAction];
 
-    if (effects.trust) {
+    if (effects.trust !== undefined) {
       let value = effects.trust;
-      if (modifier.trust) {
+      if (modifier.trust !== undefined) {
         value += modifier.trust;
       }
-      gameState.trust = clampTrust(gameState.trust + value);
+      gameState.trust = clamp(gameState.trust + value, BALANCE.TRUST_MAX);
     }
-    if (effects.truth) {
-      gameState.truth = clampTruth(gameState.truth + effects.truth);
+    if (effects.truth !== undefined) {
+      gameState.truth = clamp(gameState.truth + effects.truth, BALANCE.TRUTH_MAX);
     }
-    if (effects.pressure) {
+    if (effects.pressure !== undefined) {
       let value = effects.pressure;
-      if (modifier.pressure) {
+      if (modifier.pressure !== undefined) {
         value += modifier.pressure;
       }
-      gameState.pressure = clampPressure(gameState.pressure + value);
+      gameState.pressure = clamp(gameState.pressure + value, BALANCE.PRESSURE_MAX);
     }
 
     evaluateEmotion();
@@ -178,18 +172,18 @@ function performAction(action) {
 function performEffect(effect) {
   if (!effect) return;
 
-  if (effect.trust)
-    gameState.trust = clampTrust(gameState.trust + effect.trust);
-  if (effect.truth)
-    gameState.truth = clampTruth(gameState.truth + effect.truth);
-  if (effect.pressure)
-    gameState.pressure = clampPressure(gameState.pressure + effect.pressure);
+  if (effect.trust !== undefined)
+    gameState.trust = clamp(gameState.trust + effect.trust, BALANCE.TRUST_MAX);
+  if (effect.truth !== undefined)
+    gameState.truth = clamp(gameState.truth + effect.truth, BALANCE.TRUTH_MAX);
+  if (effect.pressure !== undefined)
+    gameState.pressure = clamp(gameState.pressure + effect.pressure, BALANCE.PRESSURE_MAX);
 
   evaluateEmotion();
 }
 
 function resolveEnding(caseData) {
-  const endingNode = caseData.nodes[gameState.node];
+  const endingNode = caseData.nodes[gameState.currentNode];
 
   if (!endingNode || !endingNode.conditions) {
     dialogEl.textContent = "Error: Ending tidak ditemukan.";
@@ -249,11 +243,6 @@ function resolveEnding(caseData) {
   dialogEl.innerHTML = `
     <h2>~ ${selectedEnding.id.replace(/_/g, " ").toUpperCase()} ~</h2>
     <p>${endingText}</p>
-  `;
-
-  updateEmotionDisplay();
-
-  optionsEl.innerHTML = `
     <div class="ending-stats">
       <p><strong>Statistik Akhir:</strong></p>
       <p>Trust: ${gameState.trust}</p>
@@ -262,4 +251,20 @@ function resolveEnding(caseData) {
       <p>Emosi: ${gameState.emotion}</p>
     </div>
   `;
+
+  updateEmotionDisplay();
+
+  const finishButton = document.createElement("button");
+  finishButton.textContent = "Selesai";
+  finishButton.classList.add("next-btn");
+  finishButton.onclick = () => {
+    if (onGameFinished) {
+      onGameFinished();
+    }
+  };
+  optionsEl.appendChild(finishButton);
+}
+
+export function setOnGameFinish(callback) {
+  onGameFinished = callback;
 }
