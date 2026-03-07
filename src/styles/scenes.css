@@ -1,0 +1,383 @@
+.scene {
+  position: relative;
+  width: 680px;
+  min-height: 420px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  box-shadow:
+    0 0 60px rgba(0, 0, 0, 0.8),
+    0 0 100px rgba(0, 0, 0, 0.5),
+    inset 0 0 80px rgba(0, 0, 0, 0.4);
+  padding: 40px;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: sceneEntrance 0.8s ease-out forwards;
+}
+
+@keyframes sceneEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Corner decorations for scenes */
+.scene::before,
+.scene::after {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: var(--accent-gold);
+  border-style: solid;
+  opacity: 0.4;
+}
+
+.scene::before {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+
+.scene::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 2px 2px 0;
+}
+
+#scene-start {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  text-align: center;
+}
+
+#btn-start-game {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 28px;
+  letter-spacing: 6px;
+  color: var(--accent-gold);
+  background: transparent;
+  border: 2px solid var(--accent-gold);
+  padding: 15px 60px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+#btn-start-game::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 162, 39, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+#btn-start-game:hover {
+  background: rgba(201, 162, 39, 0.1);
+  box-shadow:
+    0 0 20px var(--accent-glow),
+    0 0 40px rgba(201, 162, 39, 0.2);
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+#btn-start-game:hover::before {
+  left: 100%;
+}
+
+#btn-start-game:active {
+  transform: scale(0.98);
+}
+
+#scene-book {
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+#scene-book::-webkit-scrollbar {
+  width: 6px;
+}
+
+#scene-book::-webkit-scrollbar-track {
+  background: var(--bg-charcoal);
+}
+
+#scene-book::-webkit-scrollbar-thumb {
+  background: var(--accent-gold);
+  border-radius: 3px;
+}
+
+#case-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 36px;
+  color: var(--accent-gold);
+  letter-spacing: 4px;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-subtle);
+  text-shadow: 0 0 20px var(--accent-glow);
+}
+
+#scene-book h3 {
+  font-family: "Oswald", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+#scene-book ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#scene-book li {
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.8;
+  padding: 8px 0;
+  padding-left: 20px;
+  position: relative;
+  border-bottom: 1px solid rgba(42, 42, 47, 0.5);
+}
+
+#scene-book li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--accent-gold);
+  font-size: 16px;
+}
+
+#suspect-name {
+  font-size: 16px;
+  color: var(--accent-amber);
+  font-weight: 500;
+  padding: 10px 15px;
+  background: rgba(201, 162, 39, 0.08);
+  border-left: 3px solid var(--accent-gold);
+  margin-top: 10px;
+}
+
+#startInterrogation {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 20px;
+  letter-spacing: 4px;
+  color: var(--bg-deep);
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
+  border: none;
+  padding: 15px 40px;
+  margin-top: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+#startInterrogation:hover {
+  box-shadow:
+    0 0 25px var(--accent-glow),
+    0 0 50px rgba(201, 162, 39, 0.3);
+  transform: translateY(-2px);
+}
+
+#startInterrogation:active {
+  transform: translateY(0);
+}
+
+#scene-interrogation {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#emotion {
+  font-family: "Oswald", sans-serif;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 8px 15px;
+  background: var(--bg-charcoal);
+  border-left: 3px solid var(--accent-gold);
+  display: inline-block;
+  align-self: flex-start;
+}
+
+#dialogText {
+  font-size: 16px;
+  color: var(--text-primary);
+  line-height: 1.8;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-subtle);
+  min-height: 80px;
+}
+
+#options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#options button {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--bg-charcoal);
+  border: 1px solid var(--border-subtle);
+  padding: 12px 20px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+#options button::before {
+  content: "›";
+  position: absolute;
+  left: -20px;
+  color: var(--accent-gold);
+  transition: left 0.2s ease;
+}
+
+#options button:hover {
+  background: var(--bg-panel);
+  border-color: var(--accent-gold);
+  padding-left: 35px;
+}
+
+#options button:hover::before {
+  left: 15px;
+}
+
+.actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.actions button {
+  font-family: "Oswald", sans-serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  background: transparent;
+  border: 1px solid var(--accent-gold);
+  padding: 10px 25px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actions button:hover {
+  background: rgba(201, 162, 39, 0.1);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+#scene-ending {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 25px;
+}
+
+#scene-ending h2 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 42px;
+  color: var(--accent-gold);
+  letter-spacing: 6px;
+  text-shadow:
+    0 0 20px var(--accent-glow),
+    0 0 40px rgba(201, 162, 39, 0.3);
+}
+
+#ending-credits {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 2;
+  padding: 20px 40px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-subtle);
+}
+
+#btn-back-to-start {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 18px;
+  letter-spacing: 4px;
+  color: var(--accent-gold);
+  background: transparent;
+  border: 2px solid var(--accent-gold);
+  padding: 12px 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+#btn-back-to-start:hover {
+  background: rgba(201, 162, 39, 0.1);
+  box-shadow:
+    0 0 20px var(--accent-glow),
+    0 0 40px rgba(201, 162, 39, 0.2);
+}
+
+#btn-back-to-start:active {
+  transform: scale(0.98);
+}
+
+.scene-hidden {
+  display: none !important;
+}
+
+.scene-fade-in {
+  animation: sceneFadeIn 0.5s ease-out forwards;
+}
+
+@keyframes sceneFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scene-fade-out {
+  animation: sceneFadeOut 0.3s ease-in forwards;
+}
+
+@keyframes sceneFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}

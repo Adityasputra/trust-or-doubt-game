@@ -1,0 +1,183 @@
+/* Vignette overlay */
+.vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Noise/grain overlay */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 99;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: noiseShift 0.5s steps(10) infinite;
+}
+
+@keyframes noiseShift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-2%, -2%);
+  }
+  20% {
+    transform: translate(2%, 2%);
+  }
+  30% {
+    transform: translate(-1%, 1%);
+  }
+  40% {
+    transform: translate(1%, -1%);
+  }
+  50% {
+    transform: translate(-2%, 2%);
+  }
+  60% {
+    transform: translate(2%, -2%);
+  }
+  70% {
+    transform: translate(0%, 2%);
+  }
+  80% {
+    transform: translate(-2%, 0%);
+  }
+  90% {
+    transform: translate(2%, 1%);
+  }
+}
+
+/* Scanline effect */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    var(--scanline-color) 2px,
+    var(--scanline-color) 4px
+  );
+  pointer-events: none;
+  z-index: 98;
+  animation: scanlineMove 8s linear infinite;
+}
+
+@keyframes scanlineMove {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(4px);
+  }
+}
+
+/* Flickering light effect */
+.flicker-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at 30% 20%,
+    rgba(201, 162, 39, 0.03) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+  z-index: 97;
+  animation: flicker 4s ease-in-out infinite;
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  5% {
+    opacity: 0.8;
+  }
+  10% {
+    opacity: 1;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.95;
+  }
+  55% {
+    opacity: 0.85;
+  }
+  60% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.7;
+  }
+  94% {
+    opacity: 1;
+  }
+}
+
+/* Dust particles container */
+.dust-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 96;
+}
+
+.dust-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: floatDust linear infinite;
+}
+
+@keyframes floatDust {
+  0% {
+    transform: translateY(100vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(50px) rotate(360deg);
+    opacity: 0;
+  }
+}
