@@ -6,9 +6,21 @@
     <title>Trust or Doubt Game</title>
     <link rel="stylesheet" href="style.css" />
   </head>
+
   <body>
+    <!-- LOADING -->
+    <section id="scene-loading" class="scene">
+      <h2>Trust or Doubt</h2>
+      <p>Loading...</p>
+    </section>
+
+    <!-- START MENU -->
+    <section id="scene-start" class="scene" style="display: none">
+      <button id="btn-start-game">Start</button>
+    </section>
+
     <!-- CASE BOOK -->
-    <section id="scene-book" class="scene">
+    <section id="scene-book" class="scene" style="display: none">
       <h2 id="case-title"></h2>
 
       <div>
@@ -29,12 +41,19 @@
       <button id="startInterrogation">Mulai Investigasi</button>
     </section>
 
-    <!-- INTERROGATION -->
-    <section id="scene-interrogation" class="scene" style="display: none;">
+    <!-- GAMEPLAY -->
+    <section id="scene-interrogation" class="scene" style="display: none">
       <p id="emotion"></p>
       <p id="dialogText"></p>
       <div id="options"></div>
       <div id="actions" class="actions"></div>
+    </section>
+
+    <!-- ENDING -->
+    <section id="scene-ending" class="scene" style="display: none">
+      <h2>Thank You for Playing!</h2>
+      <p id="ending-credits"></p>
+      <button id="btn-back-to-start">Back to Start</button>
     </section>
 
     <script type="module" src="src/main.js"></script>
