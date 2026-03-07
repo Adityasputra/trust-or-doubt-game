@@ -5,13 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trust or Doubt Game</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="src/styles/loading.css" />
+    <link rel="stylesheet" href="src/styles/effects.css" />
+    <link rel="stylesheet" href="src/styles/scenes.css" />
   </head>
 
   <body>
+    <div class="vignette"></div>
+    <div class="noise-overlay"></div>
+    <div class="scanlines"></div>
+    <div class="flicker-overlay"></div>
+    <div class="dust-container" id="dustContainer"></div>
     <!-- LOADING -->
-    <section id="scene-loading" class="scene">
-      <h2>Trust or Doubt</h2>
-      <p>Loading...</p>
+    <section id="scene-loading" class="loading-scene">
+      <!-- Vertical Loading Bar -->
+      <div class="loading-bar-container">
+        <span class="bar-label">PROGRESS</span>
+        <div class="loading-bar-track">
+          <div class="loading-bar-fill" id="loadingBarFill"></div>
+          <div class="loading-bar-glow" id="loadingBarGlow"></div>
+        </div>
+        <span class="bar-label">STATUS</span>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Classification Stamp -->
+        <div class="classified-stamp">CLASSIFIED</div>
+
+        <!-- Case Header -->
+        <div class="case-header">INVESTIGATION FILE</div>
+        <div class="case-number">CASE NO. TRD-2024-0742</div>
+
+        <!-- Game Title -->
+        <div class="game-title-container">
+          <h1 class="game-title title-flicker">TRUST OR<br />DOUBT</h1>
+          <p class="game-subtitle">A MYSTERY INVESTIGATION</p>
+        </div>
+
+        <!-- Percentage Display -->
+        <div class="percentage-container">
+          <span class="percentage-value" id="percentageValue">0</span>
+          <span class="percentage-symbol">%</span>
+          <span class="percentage-label">LOADED</span>
+        </div>
+
+        <!-- Status Message -->
+        <div class="status-container">
+          <div class="status-label">CURRENT OPERATION</div>
+          <div class="status-message">
+            <div class="status-indicator"></div>
+            <span class="status-text" id="statusText"></span>
+            <span class="cursor"></span>
+          </div>
+        </div>
+
+        <!-- Data Fragments Decoration -->
+        <div class="data-fragments">
+          SYS.INIT: ACTIVE<br />
+          MEM.ALLOC: 2048MB<br />
+          SECTOR: 7-ALPHA
+        </div>
+
+        <div class="secondary-bar">
+          <div class="secondary-bar-fill" id="secondaryBarFill"></div>
+        </div>
+      </div>
+
+      <!-- Corner decorations (absolutely positioned) -->
+      <div class="corner-tl"></div>
+      <div class="corner-br"></div>
     </section>
 
     <!-- START MENU -->
@@ -57,5 +120,6 @@
     </section>
 
     <script type="module" src="src/main.js"></script>
+    <script type="module" src="src/ui/loadingUi.js"></script>
   </body>
 </html>
