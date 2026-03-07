@@ -1,39 +1,45 @@
-import { goToNode } from "./core/engine.js";
+import { goToNode, setOnGameFinish } from "./core/engine.js";
 import { gameState } from "./core/state.js";
 import { resetStatementSystem } from "./systems/statement.js";
 import { resetEvidenceSystem } from "./systems/evidence.js";
-import { renderCaseBook } from "./ui/renderBook.js";
-import { pickRandomCase } from "./utils/randomCases.js";
+import { showScene, sceneEnding } from "./utils/showScene.js";
 
-// DOM Elements
-const sceneBook = document.getElementById("scene-book");
-const sceneInterrogation = document.getElementById("scene-interrogation");
-const startBtn = document.getElementById("startInterrogation");
+import "./ui/event.js";
 
-// Initialize game
-const caseData = pickRandomCase();
-console.log("Case loaded:", caseData.id, caseData.title);
-renderCaseBook(caseData);
+let caseData = null;
+let startNodeKey = null;
 
-// Use the explicit startNode from case data
-const startNodeKey = caseData.data.startNode;
-console.log("Start node:", startNodeKey);
+export function initGame(loadedCaseData) {
+  caseData = loadedCaseData;
+  startNodeKey = caseData.data.startNode;
+  console.log("Case loaded:", caseData.id, caseData.title);
+  console.log("Start node:", startNodeKey);
+}
 
-// Event Listeners
-startBtn.addEventListener("click", () => {
-  console.log("Starting investigation for:", caseData.title);
-  sceneBook.style.display = "none";
-  sceneInterrogation.style.display = "block";
-  startGame();
-});
-
-// Functions
-function startGame() {
-  if (startNodeKey && caseData.data.nodes[startNodeKey]) {
+export function startGame() {
+  if (startNodeKey && caseData && caseData.data.nodes[startNodeKey]) {
     goToNode(startNodeKey, caseData);
   } else {
     console.error("Node awal tidak ditemukan!", startNodeKey);
   }
+}
+
+setOnGameFinish(() => {
+  showEndingScreen();
+});
+
+function showEndingScreen() {
+  const credits = document.getElementById("ending-credits");
+
+  credits.innerHTML = `
+    Game: Trust or Doubt<br>
+    Created by: Aditya Saputra<br>
+    Programming & Design: Aditya Saputra<br>
+    Assets: Aditya Saputra<br>
+    Music / SFX: Aditya Saputra<br>
+  `;
+
+  showScene(sceneEnding);
 }
 
 export function resetGameState() {
