@@ -17,9 +17,9 @@ window.addEventListener("DOMContentLoaded", () => {
   // Loading screen
   showScene(sceneLoading);
 
-  setTimeout(() => {
-    showScene(sceneStart);
-  }, 1000);
+  // setTimeout(() => {
+  //   showScene(sceneStart);
+  // }, 1000);
 
   // Start game
   if (startGameBtn) {

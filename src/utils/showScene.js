@@ -41,5 +41,5 @@ export function showScene(scene) {
     if (s.el) s.el.style.display = "none";
   });
 
-  if (scene?.el) scene.el.style.display = "block";
+  if (scene?.el) scene.el.style.display = "";
 }
